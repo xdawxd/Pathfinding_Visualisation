@@ -9,6 +9,7 @@ WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
+GRAY = (64, 64, 64)
 
 
 class Algorithms:
@@ -65,9 +66,9 @@ class Area:
                 if self.end:
                     pygame.draw.rect(WIN, BLACK, pygame.draw.rect(WIN, RED, self.end), 1)
                 if self.pressed_list[i][j]:
-                    pygame.draw.rect(WIN, BLACK, self.grid[i][j])
+                    pygame.draw.rect(WIN, GRAY, pygame.draw.rect(WIN, BLACK, self.grid[i][j]), 1)
                 else:
-                    pygame.draw.rect(WIN, BLACK, self.grid[i][j], 1)
+                    pygame.draw.rect(WIN, GRAY, self.grid[i][j], 1)
 
 
 def draw(area):
