@@ -1,4 +1,5 @@
 import pygame
+from queue import PriorityQueue
 
 WINDOW_WIDTH, WINDOW_HEIGHT = 800, 800
 
@@ -12,18 +13,65 @@ RED = (255, 0, 0)
 GRAY = (64, 64, 64)
 
 
-class Algorithms:
-    def __init__(self, grid, start, end):
-        self.grid = grid
-        self.start = start
-        self.end = end
+def get_position(node):
+    x, y = node.x, node.y
+    pos_x, pos_y = x // 16, y // 16
+    return pos_x, pos_y
 
-    def a_star(self):
+
+class Dijkstra:
+
+    def __init__(self, grid):  # pressed_list
+        self.grid = grid
+        self.size = len(grid)
+        # self.pressed_list = pressed_list
+        self.processed = []
+
+    def get_neighbors(self, node):
+        neighbors = []
+        row, col = get_position(node)
+
+        if row > 0:
+            neighbors.append(self.grid[row - 1][col])
+        if row < self.size:
+            neighbors.append(self.grid[row + 1][col])
+        if col > 0:
+            neighbors.append(self.grid[row][col - 1])
+        if col < self.size:
+            neighbors.append(self.grid[row][col + 1])
+
+        return neighbors
+
+    def dijkstra(self, start, end):
+        if not start or not end or start == end:
+            return False
+
+        queue = PriorityQueue()
+        queue.put((0, start))
+        distance = 0
+        visited = {}
+
+        while not queue.empty():
+            current = queue.get()[1]
+            visited[current] = distance
+            distance += 1
+            neighbors = self.get_neighbors(current)
+
+            if current == end:
+                # reconstruct the path
+                return True
+
+            for neighbor in neighbors:
+                queue.put((distance, neighbor))
+
+
+class Spot:
+    """A class representing a single spot in the grid"""
+    def __init__(self):
         pass
 
 
 class Area:
-    GRID_SIZE = 50
     BLOCK_SIZE = 16
 
     def __init__(self, win):
