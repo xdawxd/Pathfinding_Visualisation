@@ -71,10 +71,20 @@ class Dijkstra:
 
 class Spot:
     """A class representing a single spot in the grid"""
-    def __init__(self, row, col):
+    def __init__(self, rect, row, col):
+        self.rect = rect
         self.row = row
         self.col = col
         self.color = WHITE
+
+    def set_color(self, clr):
+        self.color = clr
+
+    def get_color(self):
+        return self.color
+
+    def draw(self, win):
+        pygame.draw.rect(win, GRAY, pygame.draw.rect(WIN, self.color, self.rect), 1)
 
 
 class Area:
@@ -92,8 +102,11 @@ class Area:
         for x in range(0, WINDOW_WIDTH, self.BLOCK_SIZE):
             self.grid.append([])
             for y in range(0, WINDOW_HEIGHT, self.BLOCK_SIZE):
+                row = len(self.grid) - 1
+                col = len(self.grid[row])
                 rect = pygame.Rect(x, y, self.BLOCK_SIZE, self.BLOCK_SIZE)
-                self.grid[len(self.grid) - 1].append(rect)
+                spot = Spot(rect, row, col)
+                self.grid[row].append(rect)
 
         return self.grid
 
