@@ -25,5 +25,5 @@ To start the visualisation: python main.py
 ### Status:
 
 ```bash
-Currently working on visualising Dijkstra.
+Currently working on visualizing Dijkstra.
 ```
