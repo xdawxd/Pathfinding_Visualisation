@@ -1,10 +1,14 @@
 import pygame
+import os
 from queue import PriorityQueue
 
 WINDOW_WIDTH, WINDOW_HEIGHT = 800, 800
 
 WIN = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
-pygame.display.set_caption('Visualiser')
+pygame.display.set_caption('Pathfinding Visualisation')
+
+icon = pygame.image.load(os.path.join('static/icons', 'route.png'))
+pygame.display.set_icon(icon)
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -67,8 +71,10 @@ class Dijkstra:
 
 class Spot:
     """A class representing a single spot in the grid"""
-    def __init__(self):
-        pass
+    def __init__(self, row, col):
+        self.row = row
+        self.col = col
+        self.color = WHITE
 
 
 class Area:
