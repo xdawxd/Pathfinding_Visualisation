@@ -106,7 +106,7 @@ class Area:
                 col = len(self.grid[row])
                 rect = pygame.Rect(x, y, self.BLOCK_SIZE, self.BLOCK_SIZE)
                 spot = Spot(rect, row, col)
-                self.grid[row].append(rect)
+                self.grid[row].append(spot)
 
         return self.grid
 
@@ -126,16 +126,22 @@ class Area:
         grid_size = len(self.grid)
         for i in range(grid_size):
             for j in range(grid_size):
+                spot = self.grid[i][j]
+
                 if i == 0 or j == 0 or i == grid_size - 1 or j == grid_size - 1:
-                    pygame.draw.rect(WIN, BLACK, self.grid[i][j])
-                if self.start:
-                    pygame.draw.rect(WIN, BLACK, pygame.draw.rect(WIN, GREEN, self.start), 1)
-                if self.end:
-                    pygame.draw.rect(WIN, BLACK, pygame.draw.rect(WIN, RED, self.end), 1)
+                    spot.set_color(BLACK)
+                    spot.draw(WIN)
+                if self.start and spot != self.end:
+                    self.start.set_color(GREEN)
+                    self.start.draw(WIN)
+                if self.end and spot != self.start:
+                    self.end.set_color(RED)
+                    self.end.draw(WIN)
                 if self.pressed_list[i][j]:
-                    pygame.draw.rect(WIN, GRAY, pygame.draw.rect(WIN, BLACK, self.grid[i][j]), 1)
+                    spot.set_color(BLACK)
+                    spot.draw(WIN)
                 else:
-                    pygame.draw.rect(WIN, GRAY, self.grid[i][j], 1)
+                    spot.draw(WIN)
 
 
 def draw(area):
