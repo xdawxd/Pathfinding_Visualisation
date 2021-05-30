@@ -16,7 +16,7 @@ To start the visualisation: python main.py
 ### Algorithms:
 
 ```bash
-1. Dijkstra
+1. Dijkstra ✔️
 2. A*
 3. DFS
 4. BFS
@@ -25,5 +25,5 @@ To start the visualisation: python main.py
 ### Status:
 
 ```bash
-Currently working on visualising Dijkstra.
+Currently working on visualising DFS and BFS.
 ```
