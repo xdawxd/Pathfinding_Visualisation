@@ -59,14 +59,14 @@ class Dijkstra:
                 return True
 
             for neighbor in neighbors:
-                temp_cost = costs[current] + 1
+                cost = costs[current] + 1
 
-                if temp_cost < costs[neighbor]:
+                if cost < costs[neighbor]:
                     came_from[neighbor] = current
-                    costs[neighbor] = temp_cost
+                    costs[neighbor] = cost
 
                     if neighbor not in visited:
-                        queue.put((temp_cost, neighbor))
+                        queue.put((cost, neighbor))
                         visited.add(neighbor)
                         neighbor.set_color(Colors.DARK_GRAY)
 

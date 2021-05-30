@@ -12,6 +12,8 @@ icon = pygame.image.load(os.path.join('static/icons', 'route.png'))
 pygame.display.set_icon(icon)
 
 
+#  TODO -> right click for erasing, DFS/BFS next,
+#   some kind of menu to choose algorithms
 def main():
     run = True
 
