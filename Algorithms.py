@@ -55,8 +55,6 @@ class Dijkstra:
             neighbors = self.get_neighbors(current)
 
             if current == end:
-                # reconstruct the path
-
                 self.draw_path(current, came_from)
                 return True
 

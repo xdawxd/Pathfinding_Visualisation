@@ -58,7 +58,7 @@ class Area:
     def handle_mouse(self, event):
         if pygame.mouse.get_pressed(3)[0]:
             mouse_x, mouse_y = pygame.mouse.get_pos()
-            row, col = mouse_x // 16, mouse_y // 16
+            row, col = mouse_x // self.BLOCK_SIZE, mouse_y // self.BLOCK_SIZE
             self.pressed_list[row][col] = True
 
             if not self.start:
