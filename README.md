@@ -13,7 +13,7 @@ pip install -r requirements.txt
 Run the program: python main.py
 Pick a starting point and an end point by selecting two squares in the grid
 Draw the obstacles
-Run the program by pressing **spacebar**
+Run the program by pressing ** spacebar **
 ```
 
 ### Algorithms:
