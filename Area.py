@@ -43,6 +43,21 @@ class Area:
     def set_algorithm(self, alg):
         self.algorithm = alg
 
+    def handle_mouse(self, event):
+        if pygame.mouse.get_pressed(3)[0]:
+            mouse_x, mouse_y = pygame.mouse.get_pos()
+            row, col = mouse_x // self.BLOCK_SIZE, mouse_y // self.BLOCK_SIZE
+            self.pressed_list[row][col] = True
+
+            if not self.start:
+                self.start = self.grid[row][col]
+            elif not self.end:
+                self.end = self.grid[row][col]
+
+        if self.algorithm and event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE and self.start and self.end:
+                self.algorithm.find_path(self.start, self.end)
+
     def grid_init(self):
         for x in range(0, self.window_size, self.BLOCK_SIZE):
             self.grid.append([])
@@ -54,22 +69,6 @@ class Area:
                 self.grid[row].append(spot)
 
         return self.grid
-
-    def handle_mouse(self, event):
-        if pygame.mouse.get_pressed(3)[0]:
-            mouse_x, mouse_y = pygame.mouse.get_pos()
-            row, col = mouse_x // self.BLOCK_SIZE, mouse_y // self.BLOCK_SIZE
-            self.pressed_list[row][col] = True
-
-            if not self.start:
-                self.start = self.grid[row][col]
-
-            elif not self.end:
-                self.end = self.grid[row][col]
-
-        if self.algorithm and event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE and self.start and self.end:
-                self.algorithm.find_path(self.start, self.end)
 
     def draw_grid(self):
         grid_size = len(self.grid)

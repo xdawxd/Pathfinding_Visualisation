@@ -3,7 +3,7 @@ from Colors import Colors
 import pygame
 
 
-class Dijkstra:
+class Algorithm:
     def __init__(self, win, area):
         self.win = win
         self.area = area
@@ -38,6 +38,11 @@ class Dijkstra:
             neighbors.append(self.grid[row][col + 1])
 
         return neighbors
+
+
+class Dijkstra(Algorithm):
+    def __init__(self, win, area):
+        super().__init__(win, area)
 
     def find_path(self, start, end):
         if not start or not end or start == end:
@@ -76,3 +81,11 @@ class Dijkstra:
                 current.set_color(Colors.GRAY)
 
         return False
+
+
+class DFS(Algorithm):
+    def __init__(self, win, area):
+        super().__init__(win, area)
+
+    def find_path(self):
+        pass
