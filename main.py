@@ -1,5 +1,5 @@
 from Area import Area
-from Algorithms import Dijkstra
+from Algorithms import Dijkstra, DFS
 import pygame
 import os
 
@@ -12,7 +12,7 @@ icon = pygame.image.load(os.path.join('static/icons', 'route.png'))
 pygame.display.set_icon(icon)
 
 
-#  TODO -> right click for erasing, DFS/BFS next,
+#  TODO -> right click for erasing, BFS next,
 #   some kind of menu to choose algorithms
 def main():
     run = True
@@ -20,7 +20,8 @@ def main():
     area = Area(WIN, WINDOW_SIZE)
     area.grid_init()
     dijkstra = Dijkstra(WIN, area)
-    area.set_algorithm(dijkstra)
+    dfs = DFS(WIN, area)
+    area.set_algorithm(dfs)
 
     while run:
         for event in pygame.event.get():

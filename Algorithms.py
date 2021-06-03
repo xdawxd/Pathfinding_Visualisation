@@ -1,4 +1,5 @@
 from queue import PriorityQueue
+from collections import deque
 from Colors import Colors
 import pygame
 
@@ -28,14 +29,14 @@ class Algorithm:
         row = node.row
         col = node.col
 
-        if row > 0 and not self.grid[row - 1][col].is_wall():
+        if row < self.size and not self.grid[row - 1][col].is_wall():
             neighbors.append(self.grid[row - 1][col])
-        if row < self.size and not self.grid[row + 1][col].is_wall():
+        if col < self.size and not self.grid[row][col + 1].is_wall():
+            neighbors.append(self.grid[row][col + 1])
+        if row > 0 and not self.grid[row + 1][col].is_wall():
             neighbors.append(self.grid[row + 1][col])
         if col > 0 and not self.grid[row][col - 1].is_wall():
             neighbors.append(self.grid[row][col - 1])
-        if col < self.size and not self.grid[row][col + 1].is_wall():
-            neighbors.append(self.grid[row][col + 1])
 
         return neighbors
 
@@ -73,12 +74,12 @@ class Dijkstra(Algorithm):
                     if neighbor not in visited:
                         queue.put((cost, neighbor))
                         visited.add(neighbor)
-                        neighbor.set_color(Colors.DARK_GRAY)
+                        neighbor.set_color(Colors.GRAY)
 
             self.draw()
 
             if current != start:
-                current.set_color(Colors.GRAY)
+                current.set_color(Colors.DARK_GRAY)
 
         return False
 
@@ -87,5 +88,34 @@ class DFS(Algorithm):
     def __init__(self, win, area):
         super().__init__(win, area)
 
-    def find_path(self):
-        pass
+    def find_path(self, start, end):
+        stack = deque()
+        discovered = set()
+        stack.append(start)
+        came_from = {}
+
+        while stack:
+            current = stack.pop()
+
+            if current == end:
+                self.draw_path(current, came_from)
+                return True
+
+            if current not in discovered:
+                discovered.add(current)
+                neighbors = self.get_neighbors(current)
+
+                for neighbor in neighbors:
+                    if neighbor not in discovered:
+                        came_from[neighbor] = current
+                        stack.append(neighbor)
+                        neighbor.set_color(Colors.GRAY)
+
+            self.draw()
+
+            if current != start:
+                current.set_color(Colors.DARK_GRAY)
+
+        return False
+
+

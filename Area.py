@@ -47,12 +47,12 @@ class Area:
         if pygame.mouse.get_pressed(3)[0]:
             mouse_x, mouse_y = pygame.mouse.get_pos()
             row, col = mouse_x // self.BLOCK_SIZE, mouse_y // self.BLOCK_SIZE
-            self.pressed_list[row][col] = True
+            self.pressed_list[col][row] = True
 
             if not self.start:
-                self.start = self.grid[row][col]
+                self.start = self.grid[col][row]
             elif not self.end:
-                self.end = self.grid[row][col]
+                self.end = self.grid[col][row]
 
         if self.algorithm and event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE and self.start and self.end:
@@ -64,7 +64,7 @@ class Area:
             for y in range(0, self.window_size, self.BLOCK_SIZE):
                 row = len(self.grid) - 1
                 col = len(self.grid[row])
-                rect = pygame.Rect(x, y, self.BLOCK_SIZE, self.BLOCK_SIZE)
+                rect = pygame.Rect(y, x, self.BLOCK_SIZE, self.BLOCK_SIZE)
                 spot = Spot(self.win, rect, row, col)
                 self.grid[row].append(spot)
 

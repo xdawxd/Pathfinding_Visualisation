@@ -20,14 +20,14 @@ Run the program: python main.py
 ### Algorithms:
 
 ```bash
-1. Dijkstra ✔️
+1. Dijkstra ✔
 2. A*
-3. DFS
+3. DFS ✔
 4. BFS
 ```
 
 ### Status:
 
 ```bash
-Currently working on visualising DFS and BFS.
+Currently working on visualising BFS.
 ```

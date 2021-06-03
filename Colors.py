@@ -9,6 +9,6 @@ class Colors:
     GREEN = (0, 255, 0)
     RED = (255, 0, 0)
     LIGHT_GRAY = (64, 64, 64)
-    DARK_GRAY = (200, 200, 200)
-    GRAY = (100, 100, 100)
+    GRAY = (200, 200, 200)
+    DARK_GRAY = (100, 100, 100)
     TEAL = (0, 255, 255)
