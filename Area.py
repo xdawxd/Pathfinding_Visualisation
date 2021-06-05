@@ -38,21 +38,30 @@ class Area:
         self.end = None
         self.algorithm = None
         self.elements = self.window_size // self.BLOCK_SIZE
-        self.pressed_list = [[False for _ in range(self.elements)] for _ in range(self.elements)]
 
     def set_algorithm(self, alg):
         self.algorithm = alg
 
+    def get_position(self):
+        mouse_x, mouse_y = pygame.mouse.get_pos()
+        row, col = mouse_y // self.BLOCK_SIZE, mouse_x // self.BLOCK_SIZE
+
+        return row, col
+
     def handle_mouse(self, event):
         if pygame.mouse.get_pressed(3)[0]:
-            mouse_x, mouse_y = pygame.mouse.get_pos()
-            row, col = mouse_x // self.BLOCK_SIZE, mouse_y // self.BLOCK_SIZE
-            self.pressed_list[col][row] = True
+            row, col = self.get_position()
+            self.grid[row][col].set_color(Colors.BLACK)
 
             if not self.start:
-                self.start = self.grid[col][row]
+                self.start = self.grid[row][col]
+
             elif not self.end:
-                self.end = self.grid[col][row]
+                self.end = self.grid[row][col]
+
+        if pygame.mouse.get_pressed(3)[2]:
+            row, col = self.get_position()
+            self.grid[row][col].set_color(Colors.WHITE)
 
         if self.algorithm and event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE and self.start and self.end:
@@ -76,17 +85,17 @@ class Area:
             for j in range(grid_size):
                 spot = self.grid[i][j]
 
-                if i == 0 or j == 0 or i == grid_size - 1 or j == grid_size - 1:
-                    spot.set_color(Colors.BLACK)
-                    spot.draw(self.win)
                 if self.start and spot != self.end:
                     self.start.set_color(Colors.GREEN)
                     self.start.draw(self.win)
+
                 if self.end and spot != self.start:
                     self.end.set_color(Colors.RED)
                     self.end.draw(self.win)
-                if self.pressed_list[i][j]:
+
+                if i == 0 or j == 0 or i == grid_size - 1 or j == grid_size - 1:
                     spot.set_color(Colors.BLACK)
                     spot.draw(self.win)
+
                 else:
                     spot.draw(self.win)

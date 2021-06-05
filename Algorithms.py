@@ -42,6 +42,7 @@ class Algorithm:
 
 
 class Dijkstra(Algorithm):
+
     def __init__(self, win, area):
         super().__init__(win, area)
 
