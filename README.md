@@ -23,11 +23,11 @@ Run the program: python main.py
 1. Dijkstra ✔
 2. A*
 3. DFS ✔
-4. BFS
+4. BFS ✔
 ```
 
 ### Status:
 
 ```bash
-Currently working on visualising BFS.
+Currently working on visualising A*.
 ```

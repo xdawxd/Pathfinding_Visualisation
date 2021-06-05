@@ -1,4 +1,4 @@
-from queue import PriorityQueue
+from queue import PriorityQueue, Queue
 from collections import deque
 from Colors import Colors
 import pygame
@@ -119,3 +119,44 @@ class DFS(Algorithm):
         return False
 
 
+class BFS(Algorithm):
+    def __init__(self, start, end):
+        super().__init__(start, end)
+
+    def find_path(self, start, end):
+        queue = Queue()
+        queue.put(start)
+        discovered = set()
+        came_from = {}
+
+        while not queue.empty():
+            current = queue.get()
+
+            if current == end:
+                self.draw_path(current, came_from)
+                return True
+
+            if current not in discovered:
+                discovered.add(current)
+                neighbors = self.get_neighbors(current)
+
+                for neighbor in neighbors:
+                    if neighbor not in discovered:
+                        came_from[neighbor] = current
+                        queue.put(neighbor)
+                        neighbor.set_color(Colors.GRAY)
+
+            self.draw()
+
+            if current != start:
+                current.set_color(Colors.DARK_GRAY)
+
+        return False
+
+
+class AStar(Algorithm):
+    def __init__(self, start, end):
+        super().__init__(start, end)
+
+    def find_path(self):
+        pass
