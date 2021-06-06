@@ -8,17 +8,22 @@ WINDOW_SIZE = 800
 WIN = pygame.display.set_mode((WINDOW_SIZE, WINDOW_SIZE))
 pygame.display.set_caption('Pathfinding Visualisation')
 
-icon = pygame.image.load(os.path.join('static/icons', 'route.png'))
-pygame.display.set_icon(icon)
+ICON = pygame.image.load(os.path.join('static/icons', 'route.png'))
+pygame.display.set_icon(ICON)
+
+pygame.font.init()
+FONT = pygame.font.Font('static/fonts/Fipps-Regular.otf', 24)
 
 
-#  TODO -> right click for erasing, A*
-#   some kind of menu to choose algorithms
+#  TODO:
+#   -> fix the grid loading under the menu buttons
+#   -> A*
 def main():
     run = True
 
-    area = Area(WIN, WINDOW_SIZE)
+    area = Area(WIN, FONT)
     area.grid_init()
+
     dijkstra = Dijkstra(WIN, area)
     dfs = DFS(WIN, area)
     bfs = BFS(WIN, area)

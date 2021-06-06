@@ -30,13 +30,14 @@ class Spot:
 class Area:
     BLOCK_SIZE = 16
 
-    def __init__(self, win, window_size):
+    def __init__(self, win, font):
         self.win = win
-        self.window_size = window_size
+        self.font = font
         self.grid = []
         self.start = None
         self.end = None
         self.algorithm = None
+        self.window_size = pygame.display.get_surface().get_size()[0]
         self.elements = self.window_size // self.BLOCK_SIZE
 
     def set_algorithm(self, alg):
@@ -45,8 +46,10 @@ class Area:
     def get_position(self):
         mouse_x, mouse_y = pygame.mouse.get_pos()
         row, col = mouse_y // self.BLOCK_SIZE, mouse_x // self.BLOCK_SIZE
-
         return row, col
+
+    def draw_rect(self, rect, color):
+        pygame.draw.rect(self.win, Colors.LIGHT_GRAY, pygame.draw.rect(self.win, color, rect), 1)
 
     def handle_mouse(self, event):
         if pygame.mouse.get_pressed(3)[0]:
@@ -67,6 +70,25 @@ class Area:
             if event.key == pygame.K_SPACE and self.start and self.end:
                 self.algorithm.find_path(self.start, self.end)
 
+    def options_init(self):
+        width = (self.window_size - self.BLOCK_SIZE * 2) / 4
+        height = 65
+
+        algorithms = ['Dijkstra', 'A*', 'BFS', 'DFS']
+
+        for i in range(len(algorithms)):
+            rect = pygame.Rect(self.BLOCK_SIZE + width * i, self.BLOCK_SIZE, width, height)
+
+            if rect.collidepoint(pygame.mouse.get_pos()):
+                text = self.font.render(algorithms[i], True, Colors.WHITE)
+                self.draw_rect(rect, Colors.BLACK)
+            else:
+                text = self.font.render(algorithms[i], True, Colors.BLACK)
+                self.draw_rect(rect, Colors.WHITE)
+
+            text_pos = text.get_rect(center=(rect.x + width / 2, rect.y + height / 2))
+            self.win.blit(text, text_pos)
+
     def grid_init(self):
         for x in range(0, self.window_size, self.BLOCK_SIZE):
             self.grid.append([])
@@ -79,7 +101,7 @@ class Area:
 
         return self.grid
 
-    def draw_grid(self):
+    def draw(self):
         grid_size = len(self.grid)
         for i in range(grid_size):
             for j in range(grid_size):
@@ -93,9 +115,11 @@ class Area:
                     self.end.set_color(Colors.RED)
                     self.end.draw(self.win)
 
-                if i == 0 or j == 0 or i == grid_size - 1 or j == grid_size - 1:
+                if i == 0 or j == 0 or i == grid_size - 1 or j == grid_size - 1 or i == 5:
                     spot.set_color(Colors.BLACK)
                     spot.draw(self.win)
 
                 else:
                     spot.draw(self.win)
+
+        self.options_init()

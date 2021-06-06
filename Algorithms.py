@@ -14,7 +14,7 @@ class Algorithm:
     def draw(self):
         self.win.fill(Colors.WHITE)
 
-        self.area.draw_grid()
+        self.area.draw()
 
         pygame.display.update()
 
