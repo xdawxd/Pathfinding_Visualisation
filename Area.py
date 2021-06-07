@@ -117,8 +117,6 @@ class Area:
             if self.inside_grid(row, col):
                 self.grid[row][col].set_color(Colors.WHITE)
 
-        self.handle_options()
-
     def draw(self):
         self.win.fill(Colors.WHITE)
         for i in range(len(self.grid)):
