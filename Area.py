@@ -1,9 +1,11 @@
+from Algorithms import Algorithm, Dijkstra, BFS, DFS, AStar
 from Colors import Colors
 import pygame
 
 
 class Spot:
     """A class representing a single spot in the grid"""
+
     def __init__(self, win, rect, row, col):
         self.win = win
         self.rect = rect
@@ -34,14 +36,12 @@ class Area:
         self.win = win
         self.font = font
         self.grid = []
+        self.event = None
         self.start = None
         self.end = None
         self.algorithm = None
         self.window_size = pygame.display.get_surface().get_size()[0]
         self.elements = self.window_size // self.BLOCK_SIZE
-
-    def set_algorithm(self, alg):
-        self.algorithm = alg
 
     def get_position(self):
         mouse_x, mouse_y = pygame.mouse.get_pos()
@@ -56,7 +56,49 @@ class Area:
             return True
         return False
 
+    def grid_init(self):
+        for x in range(0, self.window_size, self.BLOCK_SIZE):
+            self.grid.append([])
+            for y in range(0, self.window_size, self.BLOCK_SIZE):
+                row = len(self.grid) - 1
+                col = len(self.grid[row])
+
+                last_col = (self.window_size / self.BLOCK_SIZE - 1) * self.BLOCK_SIZE
+
+                if x == 0 or x > 64 or y == 0 or y == last_col:
+                    rect = pygame.Rect(y, x, self.BLOCK_SIZE, self.BLOCK_SIZE)
+                    spot = Spot(self.win, rect, row, col)
+                    self.grid[row].append(spot)
+
+        return self.grid
+
+    def handle_options(self):
+        width = (self.window_size - self.BLOCK_SIZE * 2) / 4
+        height = 65
+
+        algorithms = {name: obj for name, obj in list(zip(Algorithm.ALGORITHMS, [Dijkstra, AStar, BFS, DFS]))}
+
+        for idx, tup in enumerate(algorithms.items()):
+            rect = pygame.Rect(self.BLOCK_SIZE + width * idx, self.BLOCK_SIZE, width, height)
+
+            if rect.collidepoint(pygame.mouse.get_pos()):
+                text = self.font.render(tup[0], True, Colors.WHITE)
+                self.draw_rect(rect, Colors.BLACK)
+
+                if pygame.mouse.get_pressed(3)[0] and not self.algorithm:
+                    if self.start and self.end:
+                        self.algorithm = (tup[1](self.win, self))
+                        self.algorithm.find_path(self.start, self.end)
+
+            else:
+                text = self.font.render(tup[0], True, Colors.BLACK)
+                self.draw_rect(rect, Colors.WHITE)
+
+            text_pos = text.get_rect(center=(rect.x + width / 2, rect.y + height / 2))
+            self.win.blit(text, text_pos)
+
     def handle_mouse(self, event):
+        self.event = event
         if pygame.mouse.get_pressed(3)[0]:
             row, col = self.get_position()
 
@@ -75,44 +117,10 @@ class Area:
             if self.inside_grid(row, col):
                 self.grid[row][col].set_color(Colors.WHITE)
 
-        if self.algorithm and event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE and self.start and self.end:
-                self.algorithm.find_path(self.start, self.end)
-
-    def options_init(self):
-        width = (self.window_size - self.BLOCK_SIZE * 2) / 4
-        height = 65
-
-        algorithms = ['Dijkstra', 'A*', 'BFS', 'DFS']
-
-        for i in range(len(algorithms)):
-            rect = pygame.Rect(self.BLOCK_SIZE + width * i, self.BLOCK_SIZE, width, height)
-
-            if rect.collidepoint(pygame.mouse.get_pos()):
-                text = self.font.render(algorithms[i], True, Colors.WHITE)
-                self.draw_rect(rect, Colors.BLACK)
-            else:
-                text = self.font.render(algorithms[i], True, Colors.BLACK)
-                self.draw_rect(rect, Colors.WHITE)
-
-            text_pos = text.get_rect(center=(rect.x + width / 2, rect.y + height / 2))
-            self.win.blit(text, text_pos)
-
-    def grid_init(self):
-        for x in range(0, self.window_size, self.BLOCK_SIZE):
-            self.grid.append([])
-            for y in range(0, self.window_size, self.BLOCK_SIZE):
-                row = len(self.grid) - 1
-                col = len(self.grid[row])
-
-                if x == 0 or x > 64 or y == 0 or y == 784:
-                    rect = pygame.Rect(y, x, self.BLOCK_SIZE, self.BLOCK_SIZE)
-                    spot = Spot(self.win, rect, row, col)
-                    self.grid[row].append(spot)
-
-        return self.grid
+        self.handle_options()
 
     def draw(self):
+        self.win.fill(Colors.WHITE)
         for i in range(len(self.grid)):
             for j in range(len(self.grid[i])):
                 spot = self.grid[i][j]
@@ -133,4 +141,5 @@ class Area:
                 else:
                     spot.draw(self.win)
 
-        self.options_init()
+        self.handle_options()
+        pygame.display.update()

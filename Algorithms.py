@@ -1,28 +1,22 @@
 from queue import PriorityQueue, Queue
 from collections import deque
 from Colors import Colors
-import pygame
 
 
 class Algorithm:
+    ALGORITHMS = ('Dijkstra', 'A*', 'BFS', 'DFS')
+
     def __init__(self, win, area):
         self.win = win
         self.area = area
         self.grid = area.grid
         self.size = len(area.grid) - 1
 
-    def draw(self):
-        self.win.fill(Colors.WHITE)
-
-        self.area.draw()
-
-        pygame.display.update()
-
     def draw_path(self, current, came_from):
         while current in came_from:
             current = came_from[current]
             current.set_color(Colors.TEAL)
-            self.draw()
+            self.area.draw()
 
     def get_neighbors(self, node):
         neighbors = []
@@ -77,7 +71,7 @@ class Dijkstra(Algorithm):
                         visited.add(neighbor)
                         neighbor.set_color(Colors.GRAY)
 
-            self.draw()
+            self.area.draw()
 
             if current != start:
                 current.set_color(Colors.DARK_GRAY)
@@ -112,7 +106,7 @@ class DFS(Algorithm):
                         stack.append(neighbor)
                         neighbor.set_color(Colors.GRAY)
 
-            self.draw()
+            self.area.draw()
 
             if current != start:
                 current.set_color(Colors.DARK_GRAY)
@@ -147,7 +141,7 @@ class BFS(Algorithm):
                         queue.put(neighbor)
                         neighbor.set_color(Colors.GRAY)
 
-            self.draw()
+            self.area.draw()
 
             if current != start:
                 current.set_color(Colors.DARK_GRAY)

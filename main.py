@@ -1,5 +1,5 @@
 from Area import Area
-from Algorithms import Dijkstra, DFS, BFS
+from Algorithms import Algorithm, Dijkstra, DFS, BFS, AStar
 import pygame
 import os
 
@@ -16,19 +16,12 @@ FONT = pygame.font.Font('static/fonts/Fipps-Regular.otf', 24)
 
 
 #  TODO:
-#   -> fix the grid loading under the menu buttons
 #   -> A*
 def main():
     run = True
 
     area = Area(WIN, FONT)
     area.grid_init()
-
-    dijkstra = Dijkstra(WIN, area)
-    dfs = DFS(WIN, area)
-    bfs = BFS(WIN, area)
-
-    area.set_algorithm(dijkstra)
 
     while run:
         for event in pygame.event.get():
@@ -40,7 +33,7 @@ def main():
 
             area.handle_mouse(event)
 
-        dijkstra.draw()
+        area.draw()
 
     pygame.quit()
 
