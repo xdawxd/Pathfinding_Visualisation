@@ -18,7 +18,7 @@ Run the program: python main.py
 - ESC buttton resets the the grid
 
 WARNING:
-DON'T PRESS ANY BUTTONS WHILE THE VISUALIZATION IS RUNNING!
+DO NOT PRESS ANY BUTTONS WHILE THE VISUALIZATION IS RUNNING!
 ```
 
 ### Algorithms:
