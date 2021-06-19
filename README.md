@@ -21,7 +21,7 @@ Run the program: python main.py
 
 ```bash
 1. Dijkstra ✔
-2. A*
+2. A* ✔
 3. DFS ✔
 4. BFS ✔
 ```
@@ -29,5 +29,5 @@ Run the program: python main.py
 ### Status:
 
 ```bash
-Currently working on visualising A*.
+Currently refactoring.
 ```
