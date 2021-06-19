@@ -17,6 +17,9 @@ Run the program: python main.py
 - Choose one of the algorithms listed above
 - ESC buttton resets the the grid
 
+Drawing - left mouse button
+Erasing - right mouse button
+
 WARNING:
 DO NOT PRESS ANY BUTTONS WHILE THE VISUALIZATION IS RUNNING!
 ```
