@@ -14,7 +14,7 @@ Run the program: python main.py
 
 - Pick a starting point and an end point by selecting two squares inside the grid
 - Draw the obstacles
-- Choose one of the algorithms listed above
+- Choose one of the algorithms
 - ESC buttton resets the the grid
 
 Drawing - left mouse button
