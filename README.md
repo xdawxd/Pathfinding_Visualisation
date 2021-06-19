@@ -29,8 +29,8 @@ DO NOT PRESS ANY BUTTONS WHILE THE VISUALIZATION IS RUNNING!
 ```bash
 1. Dijkstra
 2. A*
-3. Depth-first Search (DFS)
-4. Breadth-first Search (BFS)
+3. Breadth-first Search (BFS)
+4. Depth-first Search (DFS)
 ```
 
 ### Images
