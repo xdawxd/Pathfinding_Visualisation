@@ -30,6 +30,14 @@ DO NOT PRESS ANY BUTTONS WHILE THE VISUALIZATION IS RUNNING!
 4. Breadth-first Search (BFS)
 ```
 
+### Images
+
+![start](https://user-images.githubusercontent.com/58686770/122644142-0e09b380-d114-11eb-9b19-f59d40d38638.png)
+![maze](https://user-images.githubusercontent.com/58686770/122644251-912b0980-d114-11eb-8671-c4fd91feab9c.png)
+![astar](https://user-images.githubusercontent.com/58686770/122644254-9425fa00-d114-11eb-8dc4-7a7a46d56a6c.png)
+![astar_solve](https://user-images.githubusercontent.com/58686770/122644256-96885400-d114-11eb-9adb-7152c8aa3a49.png)
+
+
 ### Status:
 
 ```bash
