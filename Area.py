@@ -5,12 +5,15 @@ import pygame
 
 class Spot:
     """A class representing a single spot in the grid"""
+    BLOCK_SIZE = 16
 
     def __init__(self, win, rect, row, col):
         self.win = win
         self.rect = rect
         self.row = row
         self.col = col
+        self.x = row * self.BLOCK_SIZE
+        self.y = col * self.BLOCK_SIZE
         self.color = Colors.WHITE
 
     def is_wall(self):
@@ -21,6 +24,9 @@ class Spot:
 
     def get_color(self):
         return self.color
+
+    def get_pos(self):
+        return self.x, self.y
 
     def draw(self, win):
         pygame.draw.rect(win, Colors.LIGHT_GRAY, pygame.draw.rect(win, self.color, self.rect), 1)

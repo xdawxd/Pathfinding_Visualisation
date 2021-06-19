@@ -115,8 +115,8 @@ class DFS(Algorithm):
 
 
 class BFS(Algorithm):
-    def __init__(self, start, end):
-        super().__init__(start, end)
+    def __init__(self, win, area):
+        super().__init__(win, area)
 
     def find_path(self, start, end):
         queue = Queue()
@@ -153,5 +153,47 @@ class AStar(Algorithm):
     def __init__(self, start, end):
         super().__init__(start, end)
 
-    def find_path(self):
-        pass
+    def h_score(self, spot1, spot2):
+        x1, y1 = spot1.get_pos()
+        x2, y2 = spot2.get_pos()
+        return abs(x1 - x2) + abs(y1 - y2)
+
+    def find_path(self, start, end):
+        open_set = PriorityQueue()
+        open_set.put((0, start))
+
+        g_score = {spot: float('inf') for row in self.grid for spot in row}
+        g_score[start] = 0
+        f_score = {spot: float('inf') for row in self.grid for spot in row}
+        f_score[start] = self.h_score(start, end)
+
+        discovered = {start}
+        came_from = {}
+
+        while not open_set.empty():
+            current = open_set.get()[1]
+            neighbors = self.get_neighbors(current)
+
+            if current == end:
+                self.draw_path(current, came_from)
+                return True
+
+            for neighbor in neighbors:
+                temp_g_score = g_score[current] + 1
+
+                if temp_g_score < g_score[neighbor]:
+                    came_from[neighbor] = current
+                    g_score[neighbor] = temp_g_score
+                    f_score = g_score[neighbor] + self.h_score(neighbor, end)
+
+                    if neighbor not in discovered:
+                        discovered.add(neighbor)
+                        open_set.put((f_score, neighbor))
+                        neighbor.set_color(Colors.GRAY)
+
+            self.area.draw()
+
+            if current != start:
+                current.set_color(Colors.DARK_GRAY)
+
+        return False

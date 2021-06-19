@@ -1,5 +1,4 @@
 from Area import Area
-from Algorithms import Algorithm, Dijkstra, DFS, BFS, AStar
 import pygame
 import os
 
