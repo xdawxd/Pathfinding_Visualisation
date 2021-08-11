@@ -1,27 +1,28 @@
 from queue import PriorityQueue, Queue
 from collections import deque
-from Colors import Colors
+from Utils import Colors
+from abc import ABC, abstractmethod
 
 
-class Algorithm:
-    ALGORITHMS = ('Dijkstra', 'A*', 'BFS', 'DFS')
-
-    def __init__(self, win, area):
+class Algorithm(ABC):
+    def __init__(self, win, controller):
         self.win = win
-        self.area = area
-        self.grid = area.grid
-        self.size = len(area.grid) - 1
+        self.controller = controller
+        self.grid = controller.area.grid
+        self.size = len(self.grid) - 1
+
+    def draw(self):
+        self.controller.draw()
 
     def draw_path(self, current, came_from):
         while current in came_from:
             current = came_from[current]
             current.set_color(Colors.TEAL)
-            self.area.draw()
+            self.draw()
 
     def get_neighbors(self, node):
         neighbors = []
-        row = node.row
-        col = node.col
+        row, col = node.get_position_in_grid()
 
         if row < self.size and not self.grid[row - 1][col].is_wall():
             neighbors.append(self.grid[row - 1][col])
@@ -33,6 +34,10 @@ class Algorithm:
             neighbors.append(self.grid[row][col - 1])
 
         return neighbors
+
+    @abstractmethod
+    def find_path(self, start, end):
+        ...
 
 
 class Dijkstra(Algorithm):
@@ -70,7 +75,7 @@ class Dijkstra(Algorithm):
                         visited.add(neighbor)
                         neighbor.set_color(Colors.GRAY)
 
-            self.area.draw()
+            self.draw()
 
             if current != start:
                 current.set_color(Colors.DARK_GRAY)
@@ -105,7 +110,7 @@ class DFS(Algorithm):
                         stack.append(neighbor)
                         neighbor.set_color(Colors.GRAY)
 
-            self.area.draw()
+            self.draw()
 
             if current != start:
                 current.set_color(Colors.DARK_GRAY)
@@ -140,7 +145,7 @@ class BFS(Algorithm):
                         queue.put(neighbor)
                         neighbor.set_color(Colors.GRAY)
 
-            self.area.draw()
+            self.draw()
 
             if current != start:
                 current.set_color(Colors.DARK_GRAY)
@@ -162,8 +167,8 @@ class AStar(Algorithm):
         open_set.put((0, start))
 
         g_score = {spot: float('inf') for row in self.grid for spot in row}
-        g_score[start] = 0
         f_score = {spot: float('inf') for row in self.grid for spot in row}
+        g_score[start] = 0
         f_score[start] = self.h_score(start, end)
 
         discovered = {start}
@@ -190,7 +195,7 @@ class AStar(Algorithm):
                         open_set.put((f_score, neighbor))
                         neighbor.set_color(Colors.GRAY)
 
-            self.area.draw()
+            self.draw()
 
             if current != start:
                 current.set_color(Colors.DARK_GRAY)
